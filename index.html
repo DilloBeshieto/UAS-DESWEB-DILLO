@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRAGZONE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .neon-text {
+            text-shadow: 
+                0 0 10px rgba(57, 255, 220, 0.7),
+                0 0 20px rgba(57, 255, 220, 0.5),
+                0 0 30px rgba(57, 255, 220, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 10px 20px rgba(57, 255, 220, 0.2);
+        }
+
+        .skew-element {
+            transition: all 0.4s ease;
+        }
+
+        .skew-element:hover {
+            transform: skew(-5deg, 2deg);
+        }
+
+        .gradient-border {
+            border: 2px solid transparent;
+            border-image: linear-gradient(to right, #39FE, #8A2BE2);
+            border-image-slice: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-element {
+            animation: float 4s ease-in-out infinite;
+        }
+        .gaming-collection {
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.1), rgba(72, 61, 139, 0.2));
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center;
+            will-change: transform, box-shadow;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .product-card:hover .heart-icon {
+            transform: scale(1.2) rotate(15deg);
+            color: rgba(220, 38, 38, 0.7);
+        }
+
+        .product-image img {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .product-card:hover .product-image img {
+            transform: rotateY(180deg);
+        }
+
+        .pagination-btn {
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .active-page {
+            background-color: rgba(72, 61, 139, 0.5) !important;
+            color: white !important;
+        }
+        @keyframes scaleAnimation {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.02); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes skewAnimation {
+            0% { transform: skew(0deg, 0deg); }
+            50% { transform: skew(-5deg, 5deg); }
+            100% { transform: skew(0deg, 0deg); }
+        }
+
+        @keyframes flipAnimation {
+            0% { transform: perspective(1000px) rotateY(0deg); }
+            50% { transform: perspective(1000px) rotateY(180deg); }
+            100% { transform: perspective(1000px) rotateY(360deg); }
+        }
+
+        .upcoming-games {
+            background: linear-gradient(135deg, #120233 0%, #1a0a4a 50%, #0b001e 100%);
+            color: #e6e6fa;
+            font-family: 'Poppins', 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .game-card {
+            background: linear-gradient(145deg, rgba(45, 20, 90, 0.8) 0%, rgba(30, 10, 60, 0.8) 100%);
+            border-radius: 1rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease-in-out;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .game-card img {
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .discount-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ff4d4d);
+            color: white;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .btn-details {
+            background: rgba(100, 100, 200, 0.2);
+            border: 1px solid rgba(200, 200, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-details:hover {
+            background: rgba(100, 100, 200, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .btn-preorder {
+            background: linear-gradient(45deg, #8a4fff, #6a11cb);
+            transition: all 0.3s ease;
+        }
+
+        .btn-preorder:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(138, 79, 255, 0.3);
+        }
+
+        .animate-scale {
+            animation: scaleAnimation 1s ease-in-out;
+        }
+
+        .animate-skew {
+            animation: skewAnimation 1.5s infinite;
+        }
+
+        .animate-flip {
+            animation: flipAnimation 3s infinite;
+        }
+        .trending-now {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        @font-face {
+            font-family: 'GradientFont';
+            src: url('https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu72xKKTU1Kg.woff2') format('woff2');
+        }
+
+        .trending-now {
+            font-family: 'GradientFont', Arial, sans-serif;
+            background: linear-gradient(135deg, #4A148C, #6A89CC);
+            color: #E6E6FA;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            overflow-x: hidden;
+        }
+
+        .container-trending {
+            background-color: rgba(26, 26, 46, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .trending-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            position: relative;
+            background: linear-gradient(to right, #4A148C, #6A89CC);
+            color: transparent;
+            background-clip: text;
+            -moz-background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .trending-title::before {
+            content: 'TRENDING NOW!';
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(to right, #4A148C, #6A89CC);
+            color: transparent;
+            background-clip: text;
+            -moz-background-clip: text;
+            clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+            transition: clip-path 0.5s ease;
+        }
+
+        .trending-title:hover::before {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .product-card {
+            display: flex;
+            background-color: rgba(41, 41, 71, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg, 
+                transparent, 
+                rgba(255,255,255,0.1), 
+                transparent
+            );
+            transform: rotate(-45deg);
+            pointer-events: none;
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-image {
+            position: relative;
+            width: 300px;
+            height: 400px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            filter: brightness(0.9);
+        }
+
+        .product-image:hover img {
+            transform: scale(1.1);
+            filter: brightness(1);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(to right, #4A148C, #6A89CC);
+            color: white;
+            padding: 8px 20px;
+            font-weight: bold;
+            border-bottom-right-radius: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .product-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg, 
+                transparent, 
+                rgba(255,255,255,0.3), 
+                transparent
+            );
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-details {
+            background-color: rgba(106, 137, 204, 0.2);
+            color: #6A89CC;
+            border: 1px solid #6A89CC;
+        }
+
+        .btn-buy {
+            background: linear-gradient(to right, #4A148C, #6A89CC);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        
+        @media (max-width: 768px) {
+    /* Product Card Layout */
+    .product-card {
+        flex-direction: column;
+        width: 95%;
+        margin: 10px auto;
+        max-width: 350px;
+    }
+
+    /* Product Image Adjustments */
+    .product-image {
+        width: 100%;
+        height: 300px;
+    }
+
+    /* Upcoming Games Section */
+    .upcoming-games {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .game-card {
+        margin-bottom: 15px;
+    }
+
+    .game-card img {
+        height: 250px;
+    }
+
+    /* Trending Now Section */
+    .trending-now {
+        padding: 10px;
+    }
+
+    .container-trending {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .trending-title {
+        font-size: 1.8rem;
+    }
+
+    /* General Mobile Adjustments */
+    body {
+        overflow-x: hidden;
+        font-size: 14px;
+    }
+
+    /* Button Responsiveness */
+    .btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+}
+    </style>
+</head>
+<body class="text-white">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-opacity-80 bg-black/70 backdrop-blur-sm">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <div class="flex items-center space-x-4">
+                <img src="LOGO FRAGZONE.webp" 
+                     alt="FRAGZONE Logo" 
+                     class="w-12 h-12 rounded-full floating-element">
+                <span class="text-3xl font-bold text-cyan-300 neon-text font-orbitron">FRAGZONE</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-cyan-200 hover:text-cyan-500 transition-colors duration-300 skew-element">HOME</a>
+                <a href="#footer" class="text-cyan-200 hover:text-cyan-500 transition-colors duration-300 skew-element">ABOUT US</a>
+                <a href="#footer" class="text-cyan-200 hover:text-cyan-500 transition-colors duration-300 skew-element">CONTACT</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="bg-gradient-to-r from-cyan-400 to-purple-600 text-white px-6 py-2 rounded-full hover:from-cyan-500 hover:to-purple-700 transition-all">
+                    SIGN IN
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-20">
+        <section class="relative h-screen flex items-center justify-center">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-cyan-900/50 to-purple-900/50 backdrop-blur-sm"></div>
+                <video 
+                    autoplay 
+                    loop 
+                    muted 
+                    class="absolute top-0 left-0 w-full h-full object-cover opacity-30">
+                    <source src="videohover.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="relative z-10 text-center">
+                <h1 class="text-6xl font-bold text-cyan-300 mb-4 neon-text font-orbitron">
+                    GAMING GEAR COLLECTIONS
+                </h1>
+                <p class="text-xl text-cyan-200 mb-8 tracking-wide">
+                    Find Your Best Gaming Gear Here
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <a href="hal 2.html">
+                        <button class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-8 py-3 rounded-full hover:from-cyan-600 hover:to-purple-700 transition-all">
+                            Explore Collections
+                        </button>
+                    </a>
+                    <a href="hal 3.html">
+                    <button class="border-2 border-cyan-300 text-cyan-300 px-8 py-3 rounded-full hover:bg-cyan-300 hover:text-black transition-all">
+                        Buy Gear
+                    </button>
+                </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <section class="gaming-collection bg-opacity-10 text-gray-800">
+        <div class="container-gaming mx-auto p-6">
+            <h1 class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
+                Elegant Gaming Collection
+            </h1>
+            
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+    
+            <!-- Pagination -->
+            <div id="pagination" class="flex justify-center mt-8 space-x-2">
+                <button data-page="1" class="pagination-btn page-btn bg-cyan-500 bg-opacity-20 text-white px-4 py-2 rounded-lg hover:bg-opacity-40 transition-all">
+                    01
+                </button>
+                <button data-page="2" class="pagination-btn page-btn bg-purple-500 bg-opacity-20 text-white px-4 py-2 rounded-lg hover:bg-opacity-40 transition-all">
+                    02
+                </button>
+                <button data-page="3" class="pagination-btn page-btn bg-cyan-500 bg-opacity-20 text-white px-4 py-2 rounded-lg hover:bg-opacity-40 transition-all">
+                    03
+                </button>
+                <button class="pagination-btn bg-purple-500 bg-opacity-20 text-white px-4 py-2 rounded-lg hover:bg-opacity-40 transition-all">
+                    ...
+                </button>
+            </div>
+        </div>
+    </section>
+    <section class="upcoming-games">
+        <h1 class="text-4xl font-bold text-purple-300 mb-12 text-center animate-scale">
+            SPECIAL OFFER!
+        </h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Game Card 1 -->
+            <div class="game-card animate-skew p-6 transform transition duration-300 hover:scale-105">
+                <div class="discount-badge">86% off!</div>
+                <img src="https://down-id.img.susercontent.com/file/2356595eea06931fa659daf02bdf0cc8@resize_w900_nl.webp" 
+                     alt="ONIKUMA X20 7.1 All Surround Headset Gaming" 
+                     class="rounded-lg mb-6 w-full h-72 object-cover"/>
+                
+                <p class="text-sm text-purple-200 mb-2">
+                    PC User only for 7.1 Virtual Surround Sound experience
+                </p>
+                
+                <h2 class="text-2xl font-bold mb-4 text-purple-100">
+                    ONIKUMA X20 7.1 All Surround Headset Gaming
+                </h2>
+                
+                <p class="text-sm text-purple-300 mb-4">
+                    Perfect Sound - Cool unique LED light - Durable and Noise Reduction Microphone
+                </p>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-2xl font-bold text-purple-100">
+                        Rp140.870
+                    </span>
+                    <span class="text-purple-500 line-through">
+                        Rp963.480
+                    </span>
+                </div>
+                
+                <div class="flex justify-between space-x-4">
+                    <button class="btn-details flex-1 py-3 px-4 rounded-lg text-white">
+                        DETAILS
+                    </button>
+                    <button class="btn-preorder flex-1 py-3 px-4 rounded-lg text-white">
+                        PRE-ORDER
+                    </button>
+                </div>
+            </div>
+    
+            <!-- Game Card 2 -->
+            <div class="game-card animate-flip p-6 transform transition duration-300 hover:scale-105">
+                <div class="discount-badge">27% off!</div>
+                <img src="https://down-id.img.susercontent.com/file/b774fdeaeb6a4b65901582441342942f@resize_w900_nl.webp" 
+                     alt="HyperX Alloy Elite II - Gaming Keyboard" 
+                     class="rounded-lg mb-6 w-full h-72 object-cover"/>
+                
+                <p class="text-sm text-purple-200 mb-2">
+                    Mechanical · Cabled · QWERTY · PC
+                </p>
+                
+                <h2 class="text-2xl font-bold mb-4 text-purple-100">
+                    HyperX Alloy Elite II - Gaming Keyboard
+                </h2>
+                
+                <p class="text-sm text-purple-300 mb-4">
+                    RGB Backlighting Customizable with NGENUITY Software
+                </p>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-2xl font-bold text-purple-100">
+                        Rp1.945.000
+                    </span>
+                    <span class="text-purple-500 line-through">
+                        Rp2.662.890
+                    </span>
+                </div>
+                
+                <div class="flex justify-between space-x-4">
+                    <button class="btn-details flex-1 py-3 px-4 rounded-lg text-white">
+                        DETAILS
+                    </button>
+                    <button class="btn-preorder flex-1 py-3 px-4 rounded-lg text-white">
+                        PRE-ORDER
+                    </button>
+                </div>
+            </div>
+    
+            <!-- Game Card 3 -->
+            <div class="game-card p-6 transform transition duration-300 hover:scale-105">
+                <div class="discount-badge">65% off!</div>
+                <img src="https://images.tokopedia.net/img/cache/900/VqbcmM/2024/7/26/4b638905-8c84-4f03-8014-988e165d9321.jpg" 
+                     alt="Xiaomi Gaming Monitor G27i" 
+                     class="rounded-lg mb-6 w-full h-72 object-cover"/>
+                
+                <p class="text-sm text-purple-200 mb-2">
+                    AMD FreeSync ™ Premium
+                </p>
+                
+                <h2 class="text-2xl font-bold mb-4 text-purple-100">
+                    Xiaomi Gaming Monitor G27i
+                </h2>
+                
+                <p class="text-sm text-purple-300 mb-4">
+                    Panel IPS 165Hz 1ms FHD Gaming Monitor 27 inch
+                </p>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-2xl font-bold text-purple-100">
+                        Rp1.799.000
+                    </span>
+                    <span class="text-purple-500 line-through">
+                        Rp.5.074.000
+                    </span>
+                </div>
+                
+                <div class="flex justify-between space-x-4">
+                    <button class="btn-details flex-1 py-3 px-4 rounded-lg text-white">
+                        DETAILS
+                    </button>
+                    <button class="btn-preorder flex-1 py-3 px-4 rounded-lg text-white">
+                        PRE-ORDER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="trending-now">
+        <div class="container-trending">
+            <div class="header">
+                <h1 class="trending-title">TRENDING NOW!</h1>
+                <button class="btn btn-details">VIEW ALL</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://varietyinfotech.com/wp-content/uploads/G923-3.jpg" alt="Logitech G923 Racing Wheel">
+                    <div class="discount-badge">41% OFF!</div>
+                </div>
+                <div class="product-details">
+                    <div>
+                        <p class="text-sm text-gray-400">
+                            Trueforce <span style="color: white;">Feel Future ERacing</span>
+                        </p>
+                        <h2 class="text-2xl font-bold" style="color: var(--soft-blue);">Logitech G923 Racing Wheel</h2>
+                        
+                        <div class="rating my-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-400 ml-2">(241 Reviews)</span>
+                        </div>
+                        
+                        <p class="text-gray-300 mb-4">
+                            TRUEFORCE changes the game. While other racing wheels simplify and degrade the physics of the game, Logitech G delivers the first high-definition force feedback racing wheel that accurately controls force and update rate like never before.
+                        </p>
+                        
+                        <div class="price mb-4">
+                            <span class="line-through text-gray-500">Rp 8.610.000</span>
+                            <span class="text-2xl font-bold" style="color: var(--soft-blue);">Rp 5.130.000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button class="btn btn-details">DETAILS</button>
+                        <button class="btn btn-buy">BUY NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="py-10 bg-[#0b0033] text-white" id="footer">
+        <div class="container mx-auto px-4">
+         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+          <div class="flex-1 flex items-center">
+           <img alt="FRAGZONE Logo" class="mr-4" height="50" src="LOGO FRAGZONE.webp" width="200"/>
+           <div>
+            <p class="mb-2">
+             <i class="fas fa-map-marker-alt">
+             </i>
+             Kampus 5 JPTK FKIP Universitas Sebelas Maret 
+             Jl. A. Yani No.200, Dusun II, Pabelan, Kec. Kartasura, Kabupaten Sukoharjo, Jawa Tengah 57161
+            </p>
+            <p class="mb-2">
+             <i class="fas fa-phone">
+             </i>
+             +6285640039282
+            </p>
+            <p>
+             <i class="fas fa-clock">
+             </i>
+             Mon - Fri ( 09:00 am to 17:00 pm )
+            </p>
+           </div>
+          </div>
+          <div class="flex-1">
+           <h3 class="font-bold mb-4">
+            OUR SHOWROOM
+           </h3>
+           <p>
+             Jl. A. Yani No.200, Dusun II, Pabelan, Kec. Kartasura, Kabupaten Sukoharjo, Jawa Tengah 57161 ( 11:00 am to 15:00 pm )
+           </p>
+          </div>
+          <div class="flex-1">
+           <h3 class="font-bold mb-4">
+            AUTHOR'S SOCIAL MEDIA
+           </h3>
+           <div class="flex space-x-4">
+             <button onclick="window.location.href='https://www.instagram.com/dillobeshieto__'" class="transition-transform hover:scale-110">
+               <i class="fab fa-instagram text-2xl text-gray-700 hover:text-pink-500"></i>
+             </button>
+             
+             <button onclick="window.location.href='https://www.facebook.com/dillo.beshieto'" class="transition-transform hover:scale-110">
+               <i class="fab fa-facebook text-2xl text-gray-700 hover:text-blue-600"></i>
+             </button>
+             
+             <button onclick="window.location.href='https://www.youtube.com/channel/@dillobeshieto'" class="transition-transform hover:scale-110">
+               <i class="fab fa-youtube text-2xl text-gray-700 hover:text-red-600"></i>
+             </button>
+             
+             <button onclick="window.location.href='https://www.tiktok.com/@dillobeshieto'" class="transition-transform hover:scale-110">
+               <i class="fab fa-tiktok text-2xl text-gray-700 hover:text-black"></i>
+             </button>
+           </div>
+          </div>
+         </div>
+         <div class="text-center mt-10 text-sm text-gray-400">
+          © 2024-2024,
+          <span class="text-red-500">
+           FRAGZONE
+          </span>
+          by DilloBeshieto
+         </div>
+        </div>
+       </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // GSAP Animations
+            gsap.from(".floating-element", {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "power3.out"
+            });
+
+            gsap.from("nav a", {
+                opacity: 0,
+                y: -50,
+                stagger: 0.2,
+                duration: 1,
+                ease: "back.out(1.7)"
+            });
+
+            // Hover interactions
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        rotation: 2,
+                        duration: 0.3,
+                        ease: "power1.inOut"
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        rotation: 0,
+                        duration: 0.3,
+                        ease: "power1.inOut"
+                    });
+                });
+            });
+        });
+         // Product Data
+         const allProducts = [
+            {
+                name: "Logitech G PRO X SUPERLIGHT",
+                category: "Mouse",
+                price: "Rp1.600.000",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2023/7/1/1f0ed698-d638-4d4c-9fc7-e368d0715b79.jpg",
+                link: "https://www.tokopedia.com/logitech-g/logitech-g-pro-x-superlight-mouse-gaming-wireless-e-sports-hitam?extParam=cmp%3D1%26ivf%3Dtrue&src=topads"
+            },
+            
+            {
+                name: "Razer DeathAdder V3 Pro",
+                category: "Mouse",
+                price: "Rp1.999.000",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2024/9/11/f30d0b25-481b-49e9-92bf-a029b162b938.png",
+                link: "https://www.tokopedia.com/razer/razer-deathadder-v3-pro-white-ultra-lightweight-wireless-mouse?extParam=ivf%3Dtrue&src=topads"
+            },
+            {
+                name: "CORSAIR K100 RGB",
+                category: "Mouse",
+                price: "Rp7.656.000",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2023/3/9/e90aad04-ab62-4396-8f8c-ade53b254e9f.jpg",
+                link: "https://www.tokopedia.com/nurulizzah1/keyboard-corsair-k100-rgb-mechanical-gaming-keyboard-el09i09a82l"
+            },
+            {
+                name: "RAZER HUNTSMAN V2 ANALOG",
+                category: "Keyboard",
+                price: "Rp4.349.000",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2024/5/21/7abd7f5f-adb5-49d9-a2bc-f53f086064f9.jpg",
+                link: "https://www.tokopedia.com/glosirjxhxu/razer-huntsman-v2-analog-gaming-keyboard-with-razer-analog-optical"
+            },
+            {
+                name: "HyperX Cloud II Pro Gaming Headset 7.1",
+                category: "Headset",
+                price: "Rp2.549.000",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2024/7/14/faab9041-cb3c-47b3-93ca-466434ce6215.jpg",
+                link: "https://www.tokopedia.com/adinedianti/hyperx-cloud-ii-pro-gaming-headset-7-1-surround-sound-cloud-2-cloud-iii-black-headsetonly-25193"
+            },
+            {
+                name: "Arctis Pro Rgb With Gamedac",
+                category: "Headset",
+                price: "Rp5.552.280",
+                image: "https://images.tokopedia.net/img/cache/900/hDjmkQ/2023/9/20/76a1bc2b-e02b-4f28-9f42-81c85a44ac8d.jpg",
+                link: "https://www.tokopedia.com/rannyagrosir/paling-dicari-steelseries-arctis-pro-rgb-with-gamedac-61453"
+            },
+            {
+                name: "DELL ALIENWARE AW3423DW",
+                category: "Monitor",
+                price: "Rp17.819.900",
+                image: "https://storage.googleapis.com/a1aa/image/WvUBnaafrGT7YamKNBE0OaQVwGSzf4DMSrIzSGlXWlPbWW5TA.jpg",
+                link: "https://www.tokopedia.com/ptagi/monitor-qd-oled-dell-alienware-34-aw3423dw-34-1440p-175hz-hdr400?extParam=ivf%3Dfalse%26keyword%3Daw3423dw%26search_id%3D20241212045240ACD6159505BB7C1AFCGM%26src%3Dsearch%26whid%3D41808&refined=true"
+            },
+            {
+                name: "Samsung Odyssey Smart G7",
+                category: "Monitor",
+                price: "Rp9.749.001",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2023/2/22/0a336bd1-97b8-40c8-adc2-8c166bfb75ab.jpg",
+                link: "https://www.tokopedia.com/samsungexclusivestore/samsung-odyssey-smart-g7-32-inch-monitor?extParam=ivf%3Dfalse&src=topads"
+            },
+            {
+                name: "BenQ ZOWIE XL2411K",
+                category: "Monitor",
+                price: "Rp4.949.000",
+                image: "https://images.tokopedia.net/img/cache/900/VqbcmM/2024/5/14/3b51b4cd-658c-4988-b779-fc7ccd05b737.jpg",
+                link: "https://www.tokopedia.com/benqstore/monitor-gaming-benq-zowie-xl2411k-24-inch-144hz-1ms-dynamic-accuracy?extParam=ivf%3Dfalse&src=topads"
+            }
+        ];
+
+        // Pagination Variables
+        const productsPerPage = 3;
+        let currentPage = 1;
+
+        // Render Products
+        function renderProducts(page) {
+            const gridContainer = document.getElementById('product-grid');
+            gridContainer.innerHTML = ''; // Clear existing products
+
+            // Calculate start and end indices for the current page
+            const start = (page - 1) * productsPerPage;
+            const end = start + productsPerPage;
+            const pageProducts = allProducts.slice(start, end);
+
+            pageProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card', 'bg-white', 'bg-opacity-10', 'backdrop-blur-lg', 'p-4', 'rounded-lg', 'relative', 'overflow-hidden', 'shadow-lg');
+                
+                productCard.innerHTML = `
+                    <div class="product-image w-full h-40 flex items-center justify-center mb-4 overflow-hidden">
+                        <a href="${product.link}" target="_blank">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain transition-transform duration-600 transform hover:scale-110">
+                        </a>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                        <p class="text-gray-500 text-sm">${product.category}</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-green-600 font-bold">${product.price}</span>
+                        <i class="heart-icon fas fa-heart text-gray-400 cursor-pointer transition-all"></i>
+                    </div>
+                `;
+
+                gridContainer.appendChild(productCard);
+            });
+
+            // Update pagination buttons
+            updatePaginationButtons(page);
+        }
+
+        // Update Pagination Buttons
+        function updatePaginationButtons(activePage) {
+            const paginationButtons = document.querySelectorAll('.page-btn');
+            paginationButtons.forEach(btn => {
+                btn.classList.remove('active-page');
+                if (parseInt(btn.getAttribute('data-page')) === activePage) {
+                    btn.classList.add('active-page');
+                }
+            });
+        }
+
+        // Interactive Heart Button
+        function initHeartButtons() {
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('heart-icon')) {
+                    e.target.classList.toggle('text-red-500');
+                }
+            });
+        }
+
+        // Pagination Event Listeners
+        function initPagination() {
+            const paginationButtons = document.querySelectorAll('.page-btn');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    renderProducts(currentPage);
+                });
+            });
+        }
+
+        // Initialize Page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial render of first page
+            renderProducts(1);
+            
+            // Initialize interactive elements
+            initHeartButtons();
+            initPagination();
+        });
+        // Optional JavaScript for interactive effects
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('animate-pulse');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('animate-pulse');
+            });
+        });
+         // Advanced Interactive Effects
+         const productCard = document.querySelector('.product-card');
+        const buttons = document.querySelectorAll('.btn');
+
+        // 3D Tilt Effect with Enhanced Precision
+        productCard.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const { left, top, width, height } = productCard.getBoundingClientRect();
+            
+            const centerX = left + width / 2;
+            const centerY = top + height / 2;
+            
+            const rotateX = (centerY - clientY) / 20;
+            const rotateY = (clientX - centerX) / 20;
+            
+            requestAnimationFrame(() => {
+                productCard.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${rotateX}deg) 
+                    rotateY(${rotateY}deg) 
+                    scale(1.02)
+                `;
+            });
+        });
+
+        productCard.addEventListener('mouseleave', () => {
+            requestAnimationFrame(() => {
+                productCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+        });
+
+        // Button Hover Interactions
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'scale(1.05)';
+            });
+
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

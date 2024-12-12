@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FRAGZONE</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .neon-text {
+            text-shadow: 
+                0 0 10px rgba(57, 255, 220, 0.7),
+                0 0 20px rgba(57, 255, 220, 0.5),
+                0 0 30px rgba(57, 255, 220, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 10px 20px rgba(57, 255, 220, 0.2);
+        }
+
+        .skew-element {
+            transition: all 0.4s ease;
+        }
+
+        .skew-element:hover {
+            transform: skew(-5deg, 2deg);
+        }
+
+        .gradient-border {
+            border: 2px solid transparent;
+            border-image: linear-gradient(to right, #39FE, #8A2BE2);
+            border-image-slice: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-element {
+            animation: float 4s ease-in-out infinite;
+        }
+        .new-arrival {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .new-arrival {
+            background: linear-gradient(135deg, #4a148c 0%, #7986cb 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container-arrival {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        .title span {
+            background: linear-gradient(45deg, #ff4081, #7c4dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .product-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .category {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .delivery-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            background: linear-gradient(45deg, #7c4dff, #448aff);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: #333;
+        }
+
+        .vendor {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .current-price {
+            color: #7c4dff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .stock-status {
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes flip {
+            0% {
+                transform: perspective(400px) rotateY(90deg);
+                opacity: 0;
+            }
+            100% {
+                transform: perspective(400px) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        .ue-special-offer-base {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .ue-special-offer-section {
+            background: linear-gradient(135deg, #4a148c 0%, #7986cb 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .ue-container-offer {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .ue-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .ue-grid-layout {
+                grid-template-columns: 1fr 1.2fr 1fr;
+            }
+        }
+
+        .ue-product-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .ue-product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .ue-product-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .ue-special-offer-main {
+            background: linear-gradient(145deg, #ffffff, #f3f4ff);
+            border: 3px solid #7c4dff;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        .ue-special-offer-main::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        .ue-special-offer-title {
+            color: #7c4dff;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .ue-product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.5s ease;
+        }
+
+        .ue-product-image:hover {
+            transform: scale(1.1);
+        }
+
+        .ue-product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: #4a148c;
+        }
+
+        .ue-rating {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+        }
+
+        .ue-rating-stars {
+            color: #ffd700;
+            margin-right: 0.5rem;
+        }
+
+        .ue-product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #7c4dff;
+            margin: 0.5rem 0;
+        }
+
+        .ue-original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .ue-new-arrival-badge {
+            background: linear-gradient(45deg, #7c4dff, #448aff);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+
+        .ue-view-offer-btn {
+            background: linear-gradient(45deg, #7c4dff, #448aff);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .ue-view-offer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 150%;
+            }
+        }
+
+        @keyframes flip {
+            0% {
+                transform: perspective(400px) rotateY(90deg);
+                opacity: 0;
+            }
+            100% {
+                transform: perspective(400px) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes skewIn {
+            0% {
+                transform: skew(20deg, 20deg) translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: skew(0deg, 0deg) translateX(0);
+                opacity: 1;
+            }
+        }
+        .pc-component {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .pc-component {
+            background: linear-gradient(135deg, #4a148c 0%, #64b5f6 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container-component {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .featured-card {
+            background: linear-gradient(45deg, #4a148c, #7986cb);
+            color: white;
+        }
+
+        .card h2, .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #4a148c;
+        }
+
+        .featured-card h2 {
+            color: white;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .current-price {
+            color: #2196f3;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .in-stock {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .free-gift {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .rating {
+            margin: 1rem 0;
+        }
+
+        .star {
+            color: #ffd700;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4a148c, #7986cb);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes flip {
+            0% {
+                transform: perspective(400px) rotateY(0);
+            }
+            100% {
+                transform: perspective(400px) rotateY(360deg);
+            }
+        }
+
+        @keyframes skewBounce {
+            0%, 100% {
+                transform: skew(0deg);
+            }
+            50% {
+                transform: skew(-10deg);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .animate-flip {
+            animation: flip 0.6s ease-in-out;
+        }
+
+        .animate-skew {
+            animation: skewBounce 0.3s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-opacity-80 bg-black/70 backdrop-blur-sm">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <div class="flex items-center space-x-4">
+                <img src="LOGO FRAGZONE.webp" 
+                     alt="FRAGZONE Logo" 
+                     class="w-12 h-12 rounded-full floating-element">
+                <span class="text-3xl font-bold text-cyan-300 neon-text font-orbitron">FRAGZONE</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-cyan-200 hover:text-cyan-500 transition-colors duration-300 skew-element">HOME</a>
+                <a href="#footer" class="text-cyan-200 hover:text-cyan-500 transition-colors duration-300 skew-element">ABOUT US</a>
+                <a href="#footer" class="text-cyan-200 hover:text-cyan-500 transition-colors duration-300 skew-element">CONTACT</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="bg-gradient-to-r from-cyan-400 to-purple-600 text-white px-6 py-2 rounded-full hover:from-cyan-500 hover:to-purple-700 transition-all">
+                    SIGN IN
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main class="relative pt-20">
+        <section class="relative h-screen flex items-center justify-center">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-cyan-900/50 to-purple-900/50 backdrop-blur-sm"></div>
+                <video 
+                    autoplay 
+                    loop 
+                    muted 
+                    class="absolute top-0 left-0 w-full h-full object-cover opacity-30">
+                    <source src="videohover.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            
+            <div class="relative z-10 text-center">
+                <h1 class="text-6xl font-bold text-cyan-300 mb-4 neon-text font-orbitron">
+                    GAMING GEAR COLLECTIONS
+                </h1>
+                <p class="text-xl text-cyan-200 mb-8 tracking-wide">
+                    Find Your Best Gaming Gear Here
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <a href="hal 2.html">
+                        <button class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-8 py-3 rounded-full hover:from-cyan-600 hover:to-purple-700 transition-all">
+                            Explore Collections
+                        </button>
+                    </a>
+                    <a href="hal 3.html">
+                    <button class="border-2 border-cyan-300 text-cyan-300 px-8 py-3 rounded-full hover:bg-cyan-300 hover:text-black transition-all">
+                        Buy Gear
+                    </button>
+                </a>
+                </div>
+        </section>
+    </main>
+    <section class="new-arrival">
+    <div class="container-arrival">
+        <h1 class="title"><span>NEW</span> ARRIVALS</h1>
+        <div class="products-grid">
+            <!-- Product cards will be dynamically inserted here -->
+        </div>
+    </div>
+</section>
+<section class="ue-special-offer-section ue-special-offer-base">
+    <div class="ue-container-offer">
+        <div class="ue-grid-layout">
+            <!-- Left Column -->
+            <div class="ue-product-column" id="leftColumn">
+            </div>
+
+            <!-- Center Column -->
+            <div class="ue-special-offer-main">
+                <h2 class="ue-special-offer-title">SPECIAL OFFER</h2>
+                <img src="https://storage.googleapis.com/a1aa/image/pMCwre2LbhRxLisAw0Dkuh0lKC3ebs9UzoecNKvEvT43stynA.jpg" 
+                     alt="Samsung Odyssey G5 32' Gaming Monitor" 
+                     class="ue-product-image">
+                <h3 class="ue-product-title">Samsung Odyssey G5 32" Full HD Curved 165Hz Gaming Monitor</h3>
+                <span class="ue-new-arrival-badge">New Arrival</span>
+                <div class="ue-rating">
+                    <div class="ue-rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span>(5.0)</span>
+                </div>
+                <div class="ue-product-price">Rp 3.935.000</div>
+                <button class="ue-view-offer-btn">View Offer</button>
+            </div>
+
+            <!-- Right Column -->
+            <div class="ue-product-column" id="rightColumn">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pc-component">
+    <div class="container-component">
+        <header>
+            <h1 class="logo">PC COMPONENTS</h1>
+            <nav>
+                <a href="#"></a>
+                <a href="#"></a>
+                <a href="#"></a>
+                <a href="#"></a>
+            </nav>
+        </header>
+
+        <div class="grid">
+            <div class="card featured-card" data-aos="fade-up">
+                <img src="https://storage.googleapis.com/a1aa/image/xuoBeGGbfboUskVTgn0qVplJorak8COuNWLLD2QCvtib6W5TA.jpg" alt="Gaming PC with RGB lighting">
+                <h2>OPTIMIZED FOR YOUR BUDGET</h2>
+                <button class="btn btn-primary">SHOP NOW ></button>
+            </div>
+
+            <div class="card" data-aos="fade-up">
+                <img src="https://storage.googleapis.com/a1aa/image/HjH4LDRfRrSyf0DK1AWewxbo1vhSZ36LAqYGERfQyZf1T3KfE.jpg" alt="Gaming PC case with RGB lighting">
+                <h3>Antec NX200M NX Series Mini Tower Gaming Case</h3>
+                <span class="status in-stock">IN STOCK</span>
+                <div class="price">
+                    <span class="original-price">Rp 489.000</span>
+                    <span class="current-price">Rp 430.320</span>
+                </div>
+                <div class="rating">
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star-half-alt"></i></span>
+                    <span>(3 reviews)</span>
+                </div>
+                <button class="btn btn-primary">BUY NOW</button>
+            </div>
+
+            <div class="card" data-aos="fade-up">
+                <img src="https://storage.googleapis.com/a1aa/image/4xDxEejatC12fEWe3JHe3NP0FhRbNP4G8a6xpLDaAWvfT3KfE.jpg" alt="Mechanical keyboard">
+                <h3>Keychron C1 RGB 104-Key Gateron Mechanical Keyboard</h3>
+                <span class="status free-gift">FREE GIFT INCLUDED</span>
+                <div class="price">
+                    <span class="original-price">Rp 1.449.000</span>
+                    <span class="current-price">Rp 1.376.550</span>
+                </div>
+                <div class="rating">
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star-half-alt"></i></span>
+                    <span>(5 reviews)</span>
+                </div>
+                <button class="btn btn-primary">BUY NOW</button>
+            </div>
+            
+            <div class="card" data-aos="fade-up">
+                <img src="https://down-id.img.susercontent.com/file/3138b314cf27facb0f4f0c0283011775.webp" alt="SSD">
+                <h3>Samsung 970 EVO Plus 2TB SSD</h3>
+                <span class="status free-gift">FREE GIFT INCLUDED</span>
+                <div class="price">
+                    <span class="original-price">Rp3.300.000</span>
+                    <span class="current-price">Rp3.189.000</span>
+                </div>
+                <div class="rating">
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star-half-alt"></i></span>
+                    <span>(5 reviews)</span>
+                </div>
+                <button class="btn btn-primary">BUY NOW</button>
+            </div>
+
+            <div class="card" data-aos="fade-up">
+                <img src="https://down-id.img.susercontent.com/file/0e19dde113afa6713f4ab2a5b6acb0b0.webp" alt="Controller">
+                <h3>Xbox Elite Series 2 Controller</h3>
+                <span class="status free-gift">FREE GIFT INCLUDED</span>
+                <div class="price">
+                    <span class="original-price">Rp 1.799.000</span>
+                    <span class="current-price">Rp 1.673.480</span>
+                </div>
+                <div class="rating">
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star-half-alt"></i></span>
+                    <span>(5 reviews)</span>
+                </div>
+                <button class="btn btn-primary">BUY NOW</button>
+            </div>
+
+
+            <div class="card" data-aos="fade-up">
+                <img src="https://storage.googleapis.com/a1aa/image/GxlqP0QEqf0hQa0r2gpuD5cckgeZ2TwnzSvlzAV4pzKc6W5TA.jpg" alt="RAM sticks">
+                <h3>GSkill 16GB Trident Z RGB DDR4 3200MHz</h3>
+                <span class="status free-gift">FREE GIFT INCLUDED</span>
+                <div class="price">
+                    <span class="original-price">Rp 1.881.000</span>
+                    <span class="current-price">Rp 1.450.000</span>
+                </div>
+                <div class="rating">
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star-half-alt"></i></span>
+                    <span>(7 reviews)</span>
+                </div>
+                <button class="btn btn-primary">BUY NOW</button>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="py-10 bg-[#0b0033] text-white" id="footer">
+    <div class="container mx-auto px-4">
+     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+      <div class="flex-1 flex items-center">
+       <img alt="FRAGZONE Logo" class="mr-4" height="50" src="LOGO FRAGZONE.webp" width="200"/>
+       <div>
+        <p class="mb-2">
+         <i class="fas fa-map-marker-alt">
+         </i>
+         Kampus 5 JPTK FKIP Universitas Sebelas Maret 
+         Jl. A. Yani No.200, Dusun II, Pabelan, Kec. Kartasura, Kabupaten Sukoharjo, Jawa Tengah 57161
+        </p>
+        <p class="mb-2">
+         <i class="fas fa-phone">
+         </i>
+         +6285640039282
+        </p>
+        <p>
+         <i class="fas fa-clock">
+         </i>
+         Mon - Fri ( 09:00 am to 17:00 pm )
+        </p>
+       </div>
+      </div>
+      <div class="flex-1">
+       <h3 class="font-bold mb-4">
+        OUR SHOWROOM
+       </h3>
+       <p>
+         Jl. A. Yani No.200, Dusun II, Pabelan, Kec. Kartasura, Kabupaten Sukoharjo, Jawa Tengah 57161 ( 11:00 am to 15:00 pm )
+       </p>
+      </div>
+      <div class="flex-1">
+       <h3 class="font-bold mb-4">
+        AUTHOR'S SOCIAL MEDIA
+       </h3>
+       <div class="flex space-x-4">
+         <button onclick="window.location.href='https://www.instagram.com/dillobeshieto__'" class="transition-transform hover:scale-110">
+           <i class="fab fa-instagram text-2xl text-gray-700 hover:text-pink-500"></i>
+         </button>
+         
+         <button onclick="window.location.href='https://www.facebook.com/dillo.beshieto'" class="transition-transform hover:scale-110">
+           <i class="fab fa-facebook text-2xl text-gray-700 hover:text-blue-600"></i>
+         </button>
+         
+         <button onclick="window.location.href='https://www.youtube.com/channel/@dillobeshieto'" class="transition-transform hover:scale-110">
+           <i class="fab fa-youtube text-2xl text-gray-700 hover:text-red-600"></i>
+         </button>
+         
+         <button onclick="window.location.href='https://www.tiktok.com/@dillobeshieto'" class="transition-transform hover:scale-110">
+           <i class="fab fa-tiktok text-2xl text-gray-700 hover:text-black"></i>
+         </button>
+       </div>
+      </div>
+     </div>
+     <div class="text-center mt-10 text-sm text-gray-400">
+      © 2024-2024,
+      <span class="text-red-500">
+       FRAGZONE
+      </span>
+      by DilloBeshieto
+     </div>
+    </div>
+   </footer>
+
+    <script>
+        const products = [
+            {
+                category: "GAMING CONTROLLERS",
+                image: "https://storage.googleapis.com/a1aa/image/dblbxB5PWi5IEt4XP5HflZp4zH9mj47Prz09KSwVudefhtynA.jpg",
+                badge: "FAST DELIVERY",
+                title: "Turtle Beach VelocityOne Flightstick for Xbox",
+                vendor: "Amazon",
+                currentPrice: "Rp 2.867.240",
+                originalPrice: "Rp 3.100.000"
+            },
+            {
+                category: "PC CASES",
+                image: "https://storage.googleapis.com/a1aa/image/VCBawwrf4ASTc6BefQ3Uier3oI4cNox7CxPe5JdR8ERiH2KfE.jpg",
+                badge: "BEST PRICE",
+                title: "Antec NX410 ATX Mid Tower Gaming Case",
+                vendor: "Amazon",
+                currentPrice: "Rp 1.274.240",
+                originalPrice: "Rp 1.592.840"
+            },
+            {
+                category: "GAMING MICE",
+                image: "https://storage.googleapis.com/a1aa/image/VEEYjEIUHOrhGt2zKRtQDPGNL8xk9ffALUVU3VSutmh6wW5TA.jpg",
+                badge: "FAST DELIVERY",
+                title: "SteelSeries Aerox 5 Wireless Gaming Mouse",
+                vendor: "Amazon",
+                currentPrice: "Rp 1.070.740",
+                originalPrice: "Rp 2.389.340"
+            },
+            {
+                category: "EXTERNAL STORAGE",
+                image: "https://storage.googleapis.com/a1aa/image/t6lGOsxPY84MNBvJ0enb5pmWrm9CEZDwn9ThlN3AJ4xewW5TA.jpg",
+                badge: "FAST DELIVERY",
+                title: "WD Seagate Game Drive Hub for Xbox",
+                vendor: "Amazon",
+                currentPrice: "Rp 1.433.540",
+                originalPrice: "Rp 1.592.840"
+            }
+        ];
+
+        function createProductCard(product, index) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.animation = `flip 0.5s ease forwards ${index * 0.2}s`;
+
+            card.innerHTML = `
+                <div class="category">${product.category}</div>
+                <img src="${product.image}" alt="${product.title}" class="product-image">
+                <div class="delivery-badge">
+                    <i class="fas fa-shipping-fast"></i> ${product.badge}
+                </div>
+                <h2 class="product-title">${product.title}</h2>
+                <div class="vendor">by <span>${product.vendor}</span></div>
+                <div class="price">
+                    <div class="current-price">$${product.currentPrice}</div>
+                    <div class="original-price">$${product.originalPrice}</div>
+                </div>
+                <div class="stock-status">In Stock</div>
+            `;
+
+            return card;
+        }
+
+        function initializeProducts() {
+            const grid = document.querySelector('.products-grid');
+            products.forEach((product, index) => {
+                const card = createProductCard(product, index);
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize the products when the page loads
+        document.addEventListener('DOMContentLoaded', initializeProducts);
+
+        // Add scroll animation
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight * 0.8) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+          // Unique identifier for the products array
+          const ueProductCatalog20240611 = [
+            {
+                uniqueId: 'UE-FLIGHT-PACK-001',
+                image: "https://storage.googleapis.com/a1aa/image/hcUxGuQGNPZsCB4Bc9y1QqvP3XOFzwfppQC01yDIQ6JNbr8JA.jpg",
+                title: "Thrustmaster T.16000M FCS Flight Pack for PC",
+                rating: 4.5,
+                price: 199.99,
+                originalPrice: 249.99,
+                category: 'Gaming Accessories'
+            },
+            {
+                uniqueId: 'UE-GAMING-CASE-002',
+                image: "https://storage.googleapis.com/a1aa/image/m2TCgeDaTHxWQq427Jl2fmotty4rkUfT8KF6fOlIywAlZblPB.jpg",
+                title: "Aero X1000R RGB Mid-Tower Gaming Case",
+                rating: 5.0,
+                price: 89.99,
+                category: 'Computer Components'
+            },
+            {
+                uniqueId: 'UE-GAMING-MOUSE-003',
+                image: "https://storage.googleapis.com/a1aa/image/86eWUoZzt6SpVC3KzC8RqXJxoGZPpfj6rdqV2HfWkvQxstynA.jpg",
+                title: "Vindicator Armor 5 Wireless Gaming Mouse",
+                rating: 4.5,
+                price: 39.99,
+                originalPrice: 49.99,
+                category: 'Gaming Peripherals'
+            }
+        ];
+
+        // Unique function for star rating generation
+        const ueCreateStarRating = (rating) => {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let starsHTML = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            return starsHTML;
+        }
+
+        // Unique function for product card creation
+        const ueCreateProductCard = (product, index) => {
+            const card = document.createElement('div');
+            card.className = 'ue-product-card';
+            card.setAttribute('data-unique-id', product.uniqueId);
+            card.style.animation = `skewIn 0.5s ease forwards ${index * 0.2}s`;
+
+            card.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" class="ue-product-image" data-category="${product.category}">
+                <h3 class="ue-product-title">${product.title}</h3>
+                <div class="ue-rating">
+                    <div class="ue-rating-stars">
+                        ${ueCreateStarRating(product.rating)}
+                    </div>
+                    <span>(${product.rating})</span>
+                </div>
+                <div class="ue-product-price">$${product.price}</div>
+                ${product.originalPrice ? `<div class="ue-original-price">$${product.originalPrice}</div>` : ''}
+            `;
+
+            return card;
+        }
+
+        // Unique function to initialize products
+        const ueInitializeProducts = () => {
+            const leftColumn = document.getElementById('leftColumn');
+            const rightColumn = document.getElementById('rightColumn');
+
+            ueProductCatalog20240611.forEach((product, index) => {
+                const leftCard = ueCreateProductCard(product, index);
+                const rightCard = ueCreateProductCard(product, index);
+                
+                leftColumn.appendChild(leftCard);
+                rightColumn.appendChild(rightCard);
+            });
+        }
+
+        // Initialize products when page loads
+        document.addEventListener('DOMContentLoaded', ueInitializeProducts);
+
+        // Add scroll animation
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.ue-product-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight * 0.8) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Add hover animation for special offer
+        const specialOffer = document.querySelector('.ue-special-offer-main');
+        specialOffer.addEventListener('mouseover', () => {
+            specialOffer.style.transform = 'scale(1.03)';
+        });
+        specialOffer.addEventListener('mouseout', () => {
+            specialOffer.style.transform = 'scale(1)';
+        });
+        // JavaScript for animations and interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation classes to cards on scroll
+            const cards = document.querySelectorAll('.card');
+            let delay = 0;
+            
+            cards.forEach(card => {
+                setTimeout(() => {
+                    card.classList.add('animate-fadeInUp');
+                }, delay);
+                delay += 200;
+            });
+
+            // Add hover animations
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02) translateY(-10px)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateY(0)';
+                });
+            });
+
+            // Add click animation to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.add('animate-skew');
+                    setTimeout(() => {
+                        this.classList.remove('animate-skew');
+                    }, 300);
+                });
+            });
+
+            // Add flip animation to logo
+            const logo = document.querySelector('.logo');
+            logo.addEventListener('click', function() {
+                this.classList.add('animate-flip');
+                setTimeout(() => {
+                    this.classList.remove('animate-flip');
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html>
